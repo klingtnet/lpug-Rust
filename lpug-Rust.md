@@ -1,3 +1,7 @@
+<!-- $theme: gaia -->
+<!-- $size: 16:9 -->
+<!-- page_number: true -->
+
 # Rust
 
 ## A safe systems programming language

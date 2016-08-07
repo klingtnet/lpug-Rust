@@ -6,6 +6,36 @@
 ## A safe systems programming language![200% center](https://www.rust-lang.org/logos/rust-logo-blk.svg)
 
 ---
+# Features
+
+Some of Rust's selling points:
+
+- **guaranteed memory safety** (current [research topic](http://plv.mpi-sws.org/rustbelt/))
+- **threads without data races**
+- generics
+- pattern matching
+- zero-cost abstractions ("What you don’t use, you don’t pay for")
+- Rust balances control (unmanaged) and safety (memory managed languages
+
+---
+- compiled language :right_arrow: **no** GIL
+	- the [rusti project](https://github.com/murarth/rusti) aims to provide a REPL for Rust
+- no garbage collection :right_arrow: **no** GC pause
+- Python is [*dynamic* and *strongly* typed](https://wiki.python.org/moin/Why%20is%20Python%20a%20dynamic%20language%20and%20also%20a%20strongly%20typed%20language)
+- *static* strong typing with *type inference* in Rust
+- Rust is a curly brace language, Python is indentation based
+
+---
+# Competition
+
+Similar languages in order of common features:
+
+- [nim](http://nim-lang.org/)
+- C++
+- [D](https://dlang.org/)
+- [Swift](https://swift.org/)
+
+---
 # History
 
 - in development since 2010
@@ -29,6 +59,7 @@
 ![25% center](http://www.rustacean.net/assets/rustacean-orig-noshadow.png)
 
 ---
+# Python :couple: Rust
 ![center width: 150%](https://blog.rust-lang.org/images/2016-06-Survey/what_language.png)
 
 ---
@@ -36,17 +67,19 @@
 
 ```rust
 fn main() {
-	println!("hi!")
+   let words = ["Hello", "pythonistas"];
+   for word in words.iter() {
+       print!("{} ", word);
+   }
+   println!("!");
 }
 ```
 
 ## Compile & Run
 
-- not rusty (idiomatic), later more
-
 ```sh
 $ rustc hello.rs -o hello && ./hello
-hi!
+Hello pythonistas !
 ```
 ---
 
@@ -117,7 +150,7 @@ $ cargo new --bin example
 $ tree example
 example
 ├── Cargo.toml
-└── src
+└── src/
     └── main.rs
 ```
 ```sh
@@ -127,25 +160,128 @@ $ cargo run
 Hello, world!
 ```
 ---
+# Variables
+
+- immutable by deault
+- create a variable binding: `let name: Type = value;`
+
+---
+# Ownsership
+
+- variable *bindings have ownership*
+- if a binding goes out of scope its resources are freed
+- Rust ensures that there is only **one** binding to any resource
+
+---
+## Borrowing
+
+- *borrowing* is lending a reference `&T` to a resource
+
+```rust
+sum(&[1,2,3,4,5]);
+```
+
+- resource is not freed when reference gets out of scope
+- **borrowing rules**:
+	1. one or more references &T to a resource (shared borrow)
+	1. exactly one (even across threads) mutable reference &mut T (mutable borrow)
+
+---
+## Lifetimes
+
+- referneces have livetimes, usually as long as 
+
+---
 # Enums
 
 - Rust's enums are *algebraic datatypes*
-	- algebraic because ... `+`,`*`
+	- **algebraic**: build from product types (tuples, structs) and sum types (only one variant at any one time, e.g. enum variants)
+
+```rust
+enum Message {
+    Quit, // variant /wo data
+    ChangeColor(i32, i32, i32), // tuple variant
+    Move { x: i32, y: i32 }, // struct (≈dict) variant
+    Write(String), // single value variant
+}
+```
+---
+# Pattern Matching [:pencil:](https://is.gd/pXyveU)
+
+```rust
+enum E {
+    A,
+    B(i32)
+}
+
+fn main() {
+    let e = E::B(4);
+    match e {
+        E::A => println!("I'm an A!"),
+        E::B(x) => println!("I'm an B with value: {}!",x),
+    }
+}
+```
 
 ---
 # Iterators
 
+
+
 ---
-# Traits
+# Traits [:pencil:](https://is.gd/VhL1GU)
+
+- defines functionality an implementing type must provide
+
+```rust
+use std::ops::Add;
+
+struct Pair { a: f64, b: f64 }
+
+impl Add for Pair {
+    type Output = Pair;
+
+    fn add(self, other: Pair) -> Pair {
+        Pair {
+            a: self.a + other.a,
+            b: self.b + other.b,
+        }
+    }
+}
+```
 
 ---
 # Generics
 
+- parametrized type
+
+---
+# Error Handling
+
+- **no exceptions**, errors are values (like in Go)
+
+```rust
+fn read_file(path: Into<String>) -> Result<Vec<u8>,IOError> { ... }
+
+let data = match read_file("./some.file")  {
+    Ok(data) => data,
+    Err(error) => panic!(err),
+}
+```
+
+- there are certain macros and methods to avoid explicit matching of common `Option` and `Result` types ([`try!`](https://doc.rust-lang.org/1.10.0/std/macro.try!.html))
+
+```
+// shorter version from above
+let data = read_file("./some.file").expect("could not read file");
+```
+
 ---
 # Macros
 
----
-# Batteries included?
+- end with an `!`: `println!`
+- expandend at compile time
+- hygienic macros, expand always to valid code at compile time (unlike C's text based preprocessor macros)
 
 ---
 # Tools
@@ -170,7 +306,8 @@ Hello, world!
 + very friendly and helpful community - [code of conduct](https://www.rust-lang.org/conduct.html)
 + incredibly good [documentation](https://www.rust-lang.org/en-US/documentation.html)
 + great tooling
-+ transparent language development, [RFC](https://github.com/rust-lang/rfcs)s, [internals](https://internals.rust-lang.org/).rust-lang.org
++ transparent language development, core team that decides about [RFC](https://github.com/rust-lang/rfcs)s, [internals](https://internals.rust-lang.org/).rust-lang.org
++ [play.rust-lang.org](http://play.rust-lang.org/)
 
 ---
 # Cons

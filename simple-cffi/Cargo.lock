@@ -1,0 +1,4 @@
+[root]
+name = "simple-cffi"
+version = "0.1.0"
+

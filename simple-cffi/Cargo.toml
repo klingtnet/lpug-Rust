@@ -1,0 +1,10 @@
+[package]
+name = "simple-cffi"
+version = "0.1.0"
+authors = ["Andreas Linz <klingt.net@gmail.com>"]
+
+[lib]
+name = "simple_cffi"
+crate-type = ["dylib"]
+
+[dependencies]

@@ -1,3 +1,7 @@
 fn main() {
-    println!("hello!");
+   let words = ["Hello", "pythonistas"];
+   for word in words.iter() {
+       print!("{} ", word);
+   }
+   println!("!");
 }

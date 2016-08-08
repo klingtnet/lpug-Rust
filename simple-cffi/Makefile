@@ -1,9 +1,10 @@
 .PHONY: clean
 
+PYVER=3
+
 all: target/debug/libsimple_cffi.so
 
-run: all
-	@python square.py
+	@python$(PYVER) square.py
 
 target/debug/libsimple_cffi.so: src/lib.rs
 	cargo build

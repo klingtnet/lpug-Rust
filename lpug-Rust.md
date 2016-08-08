@@ -189,7 +189,11 @@ sum(&[1,2,3,4,5]);
 ---
 ## Lifetimes
 
-- referneces have livetimes, usually as long as 
+- references have lifetimes associated to it
+
+---
+
+# Shared mutable state is the root of all evil. :japanese_ogre:
 
 ---
 # Enums
@@ -224,14 +228,23 @@ fn main() {
 ```
 
 ---
-# Iterators
+# Iterators [:pencil:](http://is.gd/U3mXdV)
 
+- lazy evaluated
+	- must be consumed to be evaluated: `collect()`
+- can be infinite, e.g. `(0..3).cycle()`
+- [cheat sheet](https://is.gd/bHG44p)
 
+```rust
+let v: Vec<f32> = vec![1.0, 33.0, -23.4];
+let avg = v.iter().fold(0.0, |acc, val| (acc + val)/l);
+```
 
 ---
 # Traits [:pencil:](https://is.gd/VhL1GU)
 
 - defines functionality an implementing type must provide
+- composition over inheritance (avoids [diamond problem](https://en.wikipedia.org/wiki/Multiple_inheritance#The_diamond_problem))
 
 ```rust
 use std::ops::Add;
@@ -240,20 +253,28 @@ struct Pair { a: f64, b: f64 }
 
 impl Add for Pair {
     type Output = Pair;
-
     fn add(self, other: Pair) -> Pair {
-        Pair {
-            a: self.a + other.a,
-            b: self.b + other.b,
-        }
+        Pair { a: self.a + other.a,
+            b: self.b + other.b, }
     }
 }
 ```
 
 ---
-# Generics
+# Generics [:pencil:](https://is.gd/bHG44p)
 
-- parametrized type
+- parametrized types or functions
+- one implementation for multiple types
+- type parameters can be constrained, i.e. a number of traits can be specified that the input type must implement:
+
+```rust
+use std::io::Read;
+fn reader<T: Read>(r: T) -> (usize, Vec<u8>) {
+    let mut buf = Vec::new();
+    let cnt = r.read(&mut buf).unwrap();
+    (cnt, buf)
+}
+```
 
 ---
 # Error Handling
@@ -304,6 +325,8 @@ let data = read_file("./some.file").expect("could not read file");
 # Pros
 
 + very friendly and helpful community - [code of conduct](https://www.rust-lang.org/conduct.html)
++ powerful type system
++ safe concurrency
 + incredibly good [documentation](https://www.rust-lang.org/en-US/documentation.html)
 + great tooling
 + transparent language development, core team that decides about [RFC](https://github.com/rust-lang/rfcs)s, [internals](https://internals.rust-lang.org/).rust-lang.org
@@ -314,6 +337,7 @@ let data = read_file("./some.file").expect("could not read file");
 - infrastructure to immature for productive use (depends)
 - steep learning curve (fight against the borrow checker)
 - debugger support could be better
+- immature ecosystem, mostly due to the short lifetime of Rust
 
 ---
 

@@ -305,6 +305,10 @@ let data = read_file("./some.file").expect("could not read file");
 - hygienic macros, expand always to valid code at compile time (unlike C's text based preprocessor macros)
 
 ---
+<!-- *template: invert -->
+# DEMO: Call Rust from Python/Pypy
+
+---
 # Tools
 
 ## [rustfmt](https://github.com/rust-lang-nursery/rustfmt)

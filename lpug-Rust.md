@@ -309,6 +309,10 @@ let data = read_file("./some.file").expect("could not read file");
 # DEMO: Call Rust from Python/Pypy
 
 ---
+- build rust dependencies with setuptools: [github.com/novocaine/rust-python-ext](https://github.com/novocaine/rust-python-ext/blob/master/rust_ext/__init__.py)
+- Rust [CPython bindings](https://github.com/dgrunwald/rust-cpython)
+
+---
 # Tools
 
 ## [rustfmt](https://github.com/rust-lang-nursery/rustfmt)

@@ -1,5 +1,5 @@
 [package]
-name = "rusty-py"
+name = "py-rust-example"
 version = "0.1.0"
 authors = ["Andreas Linz <klingt.net@gmail.com>"]
 

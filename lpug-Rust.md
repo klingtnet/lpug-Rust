@@ -22,10 +22,12 @@ Some of Rust's selling points:
 
 |Rust|Python|
 |:-:|:-:|
-|compiled ➡ **no** GIL|interpreter|
+|compiled|interpreted (GIL)|
 |*static* strong typing with *type inference*|[*dynamic* and *strongly* typed](https://wiki.python.org/moin/Why%20is%20Python%20a%20dynamic%20language%20and%20also%20a%20strongly%20typed%20language)|
-|automatic /wo GC ➡ real time capable |garbage collected|
+|automatic¹ /wo GC ➡ real time capable |garbage collected|
 |`{` curly brace language `}`|indentation based|
+
+¹ you have to think about variable scopes 
 
 ---
 # History
@@ -34,7 +36,7 @@ Some of Rust's selling points:
 - first stable release (1.0) on May 15, 2015
 - since then about every 6 weeks a new minor versions
 	- 1.10 at the time of writing
-- open source project backed by Mozilla (Samsung and others)
+- open source project backed by Mozilla, Samsung and others
 
 ---
 # Competition
@@ -51,6 +53,8 @@ Similar languages in order of common features:
 - [Servo](https://servo.org/), Mozilla's next generation parallel browser engine
 - [Brotli decompressor](https://github.com/dropbox/rust-brotli) from Dropbox
 - [... many more](https://www.rust-lang.org/en-US/friends.html)
+
+Rust is often used as a replacement for C to write safe and performant external modules for Ruby (RoR) or Python applications.
 
 ---
 # Trivia
@@ -243,9 +247,12 @@ fn main() {
 ```
 
 ---
-# Iterators
+# Iterators [:pencil:](http://is.gd/U3mXdV)
 
-
+- list/dict comprehensions on stereoids
+- lazy evaluated, must be consumed to get the value
+- get a vector with values from 0 to 9: `let v = (0..10).collect::<Vec<_>>::();`
+- [iterator cheat sheet](https://danielkeep.github.io/itercheat_baked.html)
 
 ---
 # Traits [:pencil:](https://is.gd/VhL1GU)
@@ -270,9 +277,25 @@ impl Add for Pair {
 ```
 
 ---
-# Generics
+# Generics [:pencil:](http://is.gd/StM1Wg)
 
-- parametrized type
+- parameterized type
+
+```rust
+use std::ops::Add;
+
+// looks a bit strange, but
+// the output can be different from the input
+// type.
+fn add<T: Add<T>>(x: T, y: T) -> T::Output {
+    x + y
+}
+
+fn main() {
+    println!("{}", add(3.0, 0.14159265359));
+    println!("{}", add(30_000u64, 40_000));
+}
+```
 
 ---
 # Error Handling
@@ -300,7 +323,7 @@ let data = read_file("./some.file").expect("could not read file");
 
 - end with an `!`: `println!`
 - expandend at compile time
-- hygienic macros, expand always to valid code at compile time (unlike C's text based preprocessor macros)
+- hygienic macros: expand always to valid code at compile time (unlike C's text based preprocessor macros)
 
 ---
 # Tools
@@ -331,7 +354,7 @@ let data = read_file("./some.file").expect("could not read file");
 
 ---
 # Cons
-- infrastructure to immature for productive use (depends)
+- infrastructure too immature for productive use (depends)
 - steep learning curve (fight against the borrow checker)
 	- (+) learning Rust will give you a new perspective on how your code is executed
 - debugger support could be better
